@@ -1,0 +1,22 @@
+name: ngx_webstorage
+version: 0.1.0
+
+author: Cédric Belin <cedric@belin.io>
+description: Service for interacting with the HTTP cookies. A simple and event-based API for handling cookies.
+documentation: https://dev.belin.io/ngx-webstorage.dart/api
+homepage: https://dev.belin.io/ngx-webstorage.dart
+issue_tracker: https://github.com/cedx/ngx-webstorage.dart/issues
+repository: https://github.com/cedx/ngx-webstorage.dart
+
+environment:
+  sdk: '>=2.5.0 <3.0.0'
+
+dependencies:
+  angular: '>=5.3.0'
+
+dev_dependencies:
+  build_runner: ^1.7.1
+  build_test: ^0.10.8
+  build_web_compilers: ^2.4.1
+  grinder: ^0.8.3
+  test: ^1.6.10
