@@ -1,13 +1,13 @@
-site_name: Web Storage for AngularDart
-site_description: AngularDart services for interacting with the Web Storage.
+site_name: Web Storage for Dart
+site_description: Services for interacting with the Web Storage, in Dart.
 site_author: Cédric Belin - cedric@belin.io
-site_url: https://dev.belin.io/ngx-webstorage.dart
+site_url: https://dev.belin.io/webstorage.dart
 
 docs_dir: ../doc
 site_dir: ../web
 
 repo_name: GitHub
-repo_url: https://github.com/cedx/ngx-webstorage.dart
+repo_url: https://github.com/cedx/webstorage.dart
 edit_uri: ''
 
 copyright: Copyright &copy; 2019 Cédric Belin

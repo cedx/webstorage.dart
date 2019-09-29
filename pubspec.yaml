@@ -2,7 +2,7 @@ name: webstorage
 version: 1.0.0
 
 author: Cédric Belin <cedric@belin.io>
-description: Service for interacting with the HTTP cookies. A simple and event-based API for handling cookies.
+description: Services for interacting with the Web Storage. An event-based API to manage storage changes.
 documentation: https://dev.belin.io/webstorage.dart/api
 homepage: https://dev.belin.io/webstorage.dart
 issue_tracker: https://github.com/cedx/webstorage.dart/issues

@@ -1,11 +1,11 @@
 # Installation
 
 ## Requirements
-Before installing **Web Storage for AngularDart**, you need to make sure you have the [Dart SDK](https://dart.dev/tools/sdk)
+Before installing **Web Storage for Dart**, you need to make sure you have the [Dart SDK](https://dart.dev/tools/sdk)
 and [Pub](https://dart.dev/tools/pub/cmd), the Dart package manager, up and running.
 
 !!! warning
-    Web Storage for AngularDart requires Dart >= **2.5.0**.
+    Web Storage for Dart requires Dart >= **2.5.0**.
 
 You can verify if you're already good to go with the following commands:
 
@@ -28,7 +28,7 @@ Add this to your project's `pubspec.yaml` file:
 
 ```yaml
 dependencies:
-  ngx_webstorage: *
+  webstorage: *
 ```
 
 ### 2. Install it
@@ -42,7 +42,7 @@ pub get
 Now in your [Dart](https://dart.dev) code, you can use:
 
 ```dart
-import 'package:ngx_webstorage/ngx_webstorage.dart';
+import 'package:webstorage/webstorage.dart';
 ```
 
 See the [usage information](usage/api.md).
