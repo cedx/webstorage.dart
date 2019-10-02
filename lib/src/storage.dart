@@ -22,9 +22,17 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   /// The subscription to the storage events.
   StreamSubscription<dom.StorageEvent> _subscription;
 
-  /// The keys of the cookies associated with the current document.
+  /// Value indicating whether there is no key/value pair in this storage.
+  @override
+  bool get isEmpty => _backend.isEmpty;
+
+  /// The keys of this storage.
   @override
   Iterable<String> get keys => _backend.keys;
+
+  /// The number of key/value pairs in this storage.
+  @override
+  int get length => _backend.length;
 
   /// The stream of "changes" events.
   Stream<Map<String, SimpleChange>> get onChanges => _onChanges.stream;
@@ -41,11 +49,8 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   @override
   void clear() {
     final changes = <String, SimpleChange>{};
-    for (final entry in entries) {
-      changes[entry.key] = SimpleChange(previousValue: entry.value);
-      _backend.remove(entry.key);
-    }
-
+    for (final entry in entries) changes[entry.key] = SimpleChange(previousValue: entry.value);
+    _backend.clear();
     _onChanges.add(changes);
   }
 
