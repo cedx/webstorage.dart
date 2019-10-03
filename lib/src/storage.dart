@@ -5,7 +5,7 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
 
   /// Creates a new storage service.
   WebStorage(this._backend) {
-    _subscription = dom.window.onStorage.listen((event) {
+    _subscription = window.onStorage.listen((event) {
       if (event.key == null || event.storageArea != _backend) return;
       _onChanges.add(<String, SimpleChange>{
         event.key: SimpleChange(previousValue: event.oldValue, currentValue: event.newValue)
@@ -14,17 +14,21 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   }
 
   /// The underlying data store.
-  final dom.Storage _backend;
+  final Storage _backend;
 
   /// The handler of "changes" events.
   final StreamController<Map<String, SimpleChange>> _onChanges = StreamController<Map<String, SimpleChange>>.broadcast();
 
   /// The subscription to the storage events.
-  StreamSubscription<dom.StorageEvent> _subscription;
+  StreamSubscription<StorageEvent> _subscription;
 
   /// Value indicating whether there is no key/value pair in this storage.
   @override
   bool get isEmpty => _backend.isEmpty;
+
+  /// Value indicating whether there is at least one key/value pair in this storage.
+  @override
+  bool get isNotEmpty => _backend.isNotEmpty;
 
   /// The keys of this storage.
   @override
@@ -45,7 +49,7 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   @override
   void operator []=(String key, String value) => set(key, value);
 
-  /// Removes all cookies associated with the current document.
+  /// Removes all pairs from this storage.
   @override
   void clear() {
     final changes = <String, SimpleChange>{};
@@ -54,12 +58,16 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
     _onChanges.add(changes);
   }
 
+  /// Gets a value indicating whether this storage contains the given [key].
+  @override
+  bool containsKey(Object key) => _backend.containsKey(key);
+
   /// Cancels the subscription to the storage events.
   void destroy() => _subscription.cancel();
 
-  /// Gets a value indicating whether the current document has a cookie with the specified [key].
+  /// Applies the specified function to each key/value pair of this storage.
   @override
-  bool containsKey(Object key) => _backend.containsKey(key);
+  void forEach(void Function(String key, String value) action) => _backend.forEach(action);
 
   /// Gets the value associated to the specified [key].
   /// Returns the given default value if the cookie is not found.
@@ -82,8 +90,7 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   /// Returns the value associated with [key] before it was removed.
   @override
   String remove(Object key) {
-    final previousValue = this[key];
-    _backend.remove(key);
+    final previousValue = _backend.remove(key);
     _onChanges.add(<String, SimpleChange>{
       key: SimpleChange(previousValue: previousValue)
     });
@@ -108,12 +115,12 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
 class LocalStorage extends WebStorage {
 
   /// Creates a new storage service.
-  LocalStorage(): super(dom.window.localStorage);
+  LocalStorage(): super(window.localStorage);
 }
 
 /// Provides access to the session storage.
 class SessionStorage extends WebStorage {
 
   /// Creates a new storage service.
-  SessionStorage(): super(dom.window.sessionStorage);
+  SessionStorage(): super(window.sessionStorage);
 }
