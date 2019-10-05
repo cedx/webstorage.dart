@@ -1,5 +1,5 @@
 # Web Storage for Dart
-![Runtime](https://img.shields.io/badge/dart-%3E%3D2.5-brightgreen.svg) ![Release](https://img.shields.io/pub/v/webstorage.svg) ![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Build](https://travis-ci.com/cedx/webstorage.dart.svg)
+![Runtime](https://img.shields.io/badge/dart-%3E%3D2.5-brightgreen.svg) ![Release](https://img.shields.io/pub/v/webstorage.svg) ![License](https://img.shields.io/badge/license-MIT-blue.svg) ![Build](https://github.com/cedx/webstorage.dart/workflows/build/badge.svg)
 
 Services for interacting with the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage).
 
