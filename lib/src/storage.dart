@@ -70,11 +70,11 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   void forEach(void Function(String key, String value) action) => _backend.forEach(action);
 
   /// Gets the value associated to the specified [key].
-  /// Returns the given default value if the cookie is not found.
+  /// Returns the given default value if the storage item is not found.
   String get(String key, [String defaultValue]) => containsKey(key) ? _backend[key] : defaultValue;
 
   /// Gets the deserialized value associated to the specified [key].
-  /// Returns the given default value if the cookie is not found.
+  /// Returns the given default value if the storage item is not found.
   dynamic getObject(String key, [defaultValue]) {
     try {
       final value = this[key];
@@ -86,7 +86,7 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
     }
   }
 
-  /// Removes the cookie with the specified [key] and its associated value.
+  /// Removes the storage item with the specified [key] and its associated value.
   /// Returns the value associated with [key] before it was removed.
   @override
   String remove(Object key) {

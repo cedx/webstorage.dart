@@ -42,7 +42,7 @@ void main() => group('WebStorage', () {
         expect(record.previousValue, isNull);
       }));
 
-      storage.set('foo', 'bar');
+      storage['foo'] = 'bar';
     });
 
     test('should trigger an event when a value is updated', () {
@@ -58,7 +58,7 @@ void main() => group('WebStorage', () {
         expect(record.previousValue, 'bar');
       }));
 
-      storage.set('foo', 'baz');
+      storage['foo'] = 'baz';
     });
 
     test('should trigger an event when a value is removed', () {
@@ -129,13 +129,13 @@ void main() => group('WebStorage', () {
   group('.get()', () {
     test('should properly get the storage entries', () {
       final storage = SessionStorage();
-      expect(storage.get('foo'), isNull);
+      expect(storage['foo'], isNull);
 
       window.sessionStorage['foo'] = 'bar';
-      expect(storage.get('foo'), 'bar');
+      expect(storage['foo'], 'bar');
 
       window.sessionStorage['foo'] = '123';
-      expect(storage.get('foo'), '123');
+      expect(storage['foo'], '123');
     });
 
     test('should return the given default value if the key is not found', () {
@@ -189,9 +189,9 @@ void main() => group('WebStorage', () {
     test('should properly set the storage entries', () {
       final storage = SessionStorage();
       expect(window.sessionStorage['foo'], isNull);
-      storage.set('foo', 'bar');
+      storage['foo'] = 'bar';
       expect(window.sessionStorage['foo'], 'bar');
-      storage.set('foo', '123');
+      storage['foo'] = '123';
       expect(window.sessionStorage['foo'], '123');
     });
   });
