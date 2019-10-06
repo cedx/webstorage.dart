@@ -1,6 +1,5 @@
 analyzer:
   exclude: [lib/**.g.dart]
-  plugins: [angular]
 
 linter:
   rules:
