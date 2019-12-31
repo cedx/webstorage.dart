@@ -5,7 +5,7 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
 
   /// Creates a new storage service.
   WebStorage(this._backend) {
-    _subscription = window.onStorage.listen((event) {
+    _subscription = dom.window.onStorage.listen((event) {
       if (event.key == null || event.storageArea != _backend) return;
       _onChanges.add(<String, SimpleChange>{
         event.key: SimpleChange(previousValue: event.oldValue, currentValue: event.newValue)
@@ -14,13 +14,13 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   }
 
   /// The underlying data store.
-  final Storage _backend;
+  final dom.Storage _backend;
 
   /// The handler of "changes" events.
   final StreamController<Map<String, SimpleChange>> _onChanges = StreamController<Map<String, SimpleChange>>.broadcast();
 
   /// The subscription to the storage events.
-  StreamSubscription<StorageEvent> _subscription;
+  StreamSubscription<dom.StorageEvent> _subscription;
 
   /// Value indicating whether there is no key/value pair in this storage.
   @override
@@ -115,12 +115,12 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
 class LocalStorage extends WebStorage {
 
   /// Creates a new storage service.
-  LocalStorage(): super(window.localStorage);
+  LocalStorage(): super(dom.window.localStorage);
 }
 
 /// Provides access to the session storage.
 class SessionStorage extends WebStorage {
 
   /// Creates a new storage service.
-  SessionStorage(): super(window.sessionStorage);
+  SessionStorage(): super(dom.window.sessionStorage);
 }
