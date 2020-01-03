@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'webstorage.dart';
+part of webstorage;
 
 // **************************************************************************
 // JsonSerializableGenerator
