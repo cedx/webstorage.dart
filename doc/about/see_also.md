@@ -1,7 +1,7 @@
 # See also
 
 ## Development
-- [API reference](https://dev.belin.io/webstorage.dart/api)
+- [API reference](https://pub.dev/documentation/webstorage)
 - [Pub package](https://pub.dev/packages/webstorage)
 - [Submit an issue](https://github.com/cedx/webstorage.dart/issues)
 

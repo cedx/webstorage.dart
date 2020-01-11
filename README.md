@@ -5,7 +5,7 @@ Services for interacting with the [Web Storage](https://developer.mozilla.org/en
 
 ## Documentation
 - [User guide](https://dev.belin.io/webstorage.dart)
-- [API reference](https://dev.belin.io/webstorage.dart/api)
+- [API reference](https://pub.dev/documentation/webstorage)
 
 ## Development
 - [Git repository](https://github.com/cedx/webstorage.dart)
