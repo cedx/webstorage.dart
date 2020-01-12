@@ -11,7 +11,7 @@ dependencies:
   webstorage: *
 ```
 
-Install the latest version of **Web Storage for Dart** with [Pub](https://dart.dev/tools/pub/cmd):
+Install the latest version of **Web Storage for Dart** with [Pub](https://dart.dev/tools/pub):
 
 ```shell
 pub get
