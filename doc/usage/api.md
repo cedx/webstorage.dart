@@ -150,11 +150,11 @@ void main() {
   final storage = LocalStorage();
   print(storage.containsKey('foo')); // false
 
-  var value = storage.putObjectIfAbsent('foo', 123);
+  var value = storage.putObjectIfAbsent('foo', () => 123);
   print(storage.containsKey('foo')); // true
   print(value); // 123
 
-  value = storage.putObjectIfAbsent('foo', 456);
+  value = storage.putObjectIfAbsent('foo', () => 456);
   print(value); // 123
 }
 ```
