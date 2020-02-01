@@ -169,6 +169,22 @@ void main() => group('WebStorage', () {
     });
   });
 
+  group('.putObjectIfAbsent()', () {
+    test('should add a new entry if it does not exist', () {
+      final storage = SessionStorage();
+      expect(dom.window.sessionStorage['foo'], isNull);
+      expect(storage.putObjectIfAbsent('foo', () => 123), 123);
+      expect(dom.window.sessionStorage['foo'], '123');
+    });
+
+    test('should not add a new entry if it already exists', () {
+      final storage = SessionStorage();
+      dom.window.sessionStorage['bar'] = '123';
+      expect(storage.putObjectIfAbsent('bar', () => 456), 123);
+      expect(dom.window.sessionStorage['bar'], '123');
+    });
+  });
+
   group('.remove()', () {
     test('should properly remove the storage entries', () {
       final storage = SessionStorage();
