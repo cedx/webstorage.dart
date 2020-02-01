@@ -86,6 +86,15 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
     }
   }
 
+  /// Looks up the value of the specified [key], or add a new value if it isn't there.
+  ///
+  /// Returns the value associated to [key], if there is one. Otherwise calls [ifAbsent] to get a new value,
+  /// associates [key] to that value, and then returns the new value.
+  dynamic putObjectIfAbsent(String key, dynamic Function() ifAbsent) {
+    if (!containsKey(key)) setObject(key, ifAbsent());
+    return getObject(key);
+  }
+
   /// Removes the storage item with the specified [key] and its associated value.
   /// Returns the value associated with [key] before it was removed.
   @override
