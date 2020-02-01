@@ -128,8 +128,8 @@ void main() {
   print(storage.getObject('foo')); // null
   print(storage.getObject('foo', 'qux')); // "qux"
   
-  storage.setObject('foo', {bar: 'baz'});
-  print(storage.getObject('foo')); // {bar: "baz"}
+  storage.setObject('foo', <String, String>{'bar': 'baz'});
+  print(storage.getObject('foo')); // {"bar": "baz"}
 }
 ```
 
@@ -137,6 +137,30 @@ void main() {
     The value is deserialized using the [`jsonDecode`](https://api.dart.dev/stable/dart-convert/jsonDecode.html) function.
 
 Returns a `null` reference or the given default value if the key is not found.
+
+## dynamic **putObjectIfAbsent**(String key, dynamic Function() ifAbsent)
+Looks up the value of the specified key, or add a new value if it isn't there.
+
+Returns the deserialized value associated to the key, if there is one. Otherwise calls `ifAbsent` to get a new value, serializes and associates the key to that value, and then returns the new value:
+
+```dart
+import 'package:webstorage/webstorage.dart';
+
+void main() {
+  final storage = LocalStorage();
+  print(storage.containsKey('foo')); // false
+
+  var value = storage.putObjectIfAbsent('foo', 123);
+  print(storage.containsKey('foo')); // true
+  print(value); // 123
+
+  value = storage.putObjectIfAbsent('foo', 456);
+  print(value); // 123
+}
+```
+
+!!! info
+    The value is serialized using the [`jsonEncode`](https://api.dart.dev/stable/dart-convert/jsonEncode.html) function, and deserialized using the [`jsonDecode`](https://api.dart.dev/stable/dart-convert/jsonDecode.html) function.
 
 ## String **remove**(String key)
 Removes the value associated to the specified key:
@@ -182,8 +206,8 @@ void main() {
   final storage = LocalStorage();
   print(storage.getObject('foo')); // null
     
-  storage.setObject('foo', {bar: 'baz'});
-  print(storage.getObject('foo')); // {bar: "baz"}
+  storage.setObject('foo', <String, String>{'bar': 'baz'});
+  print(storage.getObject('foo')); // {"bar": "baz"}
 }
 ```
 
