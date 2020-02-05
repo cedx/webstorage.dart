@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:grinder/grinder.dart';
 
 /// Starts the build system.
@@ -11,6 +12,24 @@ void clean() {
   defaultClean();
   ['.dart_tool/build', 'doc/api', webDir.path].map(getDir).forEach(delete);
   FileSet.fromDir(getDir('var'), pattern: '!.*', recurse: true).files.forEach(delete);
+}
+
+@Task('Uploads the results of the code coverage')
+void coverage() {
+  var index = 0;
+  for (final file in FileSet.fromDir(getDir('var/test'), pattern: '*.json', recurse: true).files) {
+    file.renameSync('var/test/dart-cov-0-$index.json');
+    index++;
+  }
+
+  Pub.run('coverage', script: 'format_coverage', arguments: [
+    '--base-directory=${Directory.current.path}',
+    '--in=var/test',
+    '--lcov',
+    '--out=var/lcov.info'
+  ]);
+
+  Pub.run('coveralls', arguments: ['var/lcov.info']);
 }
 
 @Task('Builds the documentation')
@@ -31,7 +50,7 @@ void lint() => Analyzer.analyze(existingSourceDirs);
 void publish() => run('pub', arguments: ['publish', '--force']);
 
 @Task('Runs the test suites')
-void test() => Pub.run('build_runner', arguments: ['test', '--delete-conflicting-outputs']);
+void test() => Pub.run('build_runner', arguments: ['test', '--delete-conflicting-outputs', '--', '--coverage=var']);
 
 @Task('Upgrades the project to the latest revision')
 void upgrade() {
