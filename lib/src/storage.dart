@@ -60,7 +60,10 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
 
   /// Gets a value indicating whether this storage contains the given [key].
   @override
-  bool containsKey(Object key) => _backend.containsKey(key);
+  bool containsKey(Object key) {
+    assert(key is String && key.isNotEmpty);
+    return _backend.containsKey(key);
+  }
 
   /// Cancels the subscription to the storage events.
   void destroy() => _subscription.cancel();
@@ -99,6 +102,8 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   /// Returns the value associated with [key] before it was removed.
   @override
   String remove(Object key) {
+    assert(key is String && key.isNotEmpty);
+
     final previousValue = _backend.remove(key);
     _onChanges.add(<String, SimpleChange>{
       key: SimpleChange(previousValue: previousValue)
@@ -109,6 +114,8 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
 
   /// Associates a given [value] to the specified [key].
   void set(String key, String value) {
+    assert(key.isNotEmpty);
+
     final previousValue = this[key];
     _backend[key] = value;
     _onChanges.add(<String, SimpleChange>{
