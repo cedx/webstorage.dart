@@ -10,25 +10,14 @@ void build() => Pub.run('build_runner', arguments: ['build', '--delete-conflicti
 @Task('Deletes all generated files and reset any saved state')
 void clean() {
   defaultClean();
-  ['.dart_tool/build', 'doc/api', webDir.path].map(getDir).forEach(delete);
-  FileSet.fromDir(getDir('var'), pattern: '!.*', recurse: true).files.forEach(delete);
+  delete(getFile('var/lcov.info'));
+  ['.dart_tool/build', 'var/test', webDir.path].map(getDir).forEach(delete);
 }
 
 @Task('Uploads the results of the code coverage')
 void coverage() {
-  var index = 0;
-  for (final file in FileSet.fromDir(getDir('var/test'), pattern: '*.json', recurse: true).files) {
-    file.renameSync('var/test/dart-cov-0-$index.json');
-    index++;
-  }
-
-  Pub.run('coverage', script: 'format_coverage', arguments: [
-    '--base-directory=${Directory.current.path}',
-    '--in=var/test',
-    '--lcov',
-    '--out=var/lcov.info'
-  ]);
-
+  final arguments = ['--in=var/test', '--lcov', '--out=var/lcov.info', '--packages=.packages', '--report-on=lib'];
+  Pub.run('coverage', script: 'format_coverage', arguments: arguments);
   Pub.run('coveralls', arguments: ['var/lcov.info']);
 }
 
