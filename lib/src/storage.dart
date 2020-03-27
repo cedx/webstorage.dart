@@ -4,8 +4,8 @@ part of '../webstorage.dart';
 abstract class WebStorage extends Object with MapMixin<String, String> { // ignore: prefer_mixin
 
   /// Creates a new storage service.
-  WebStorage(this._backend) {
-    _subscription = dom.window.onStorage.listen((event) {
+  WebStorage(this._backend, {bool listenToStorageEvents = false}) {
+    if (listenToStorageEvents) _subscription = dom.window.onStorage.listen((event) {
       if (event.key == null || event.storageArea != _backend) return;
       _onChanges.add(<String, SimpleChange>{
         event.key: SimpleChange(previousValue: event.oldValue, currentValue: event.newValue)
@@ -66,7 +66,7 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   }
 
   /// Cancels the subscription to the storage events.
-  void destroy() => _subscription.cancel();
+  void destroy() => _subscription?.cancel();
 
   /// Applies the specified function to each key/value pair of this storage.
   @override
@@ -131,12 +131,14 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
 class LocalStorage extends WebStorage {
 
   /// Creates a new storage service.
-  LocalStorage(): super(dom.window.localStorage);
+  LocalStorage({bool listenToStorageEvents = false}):
+    super(dom.window.localStorage, listenToStorageEvents: listenToStorageEvents);
 }
 
 /// Provides access to the session storage.
 class SessionStorage extends WebStorage {
 
   /// Creates a new storage service.
-  SessionStorage(): super(dom.window.sessionStorage);
+  SessionStorage({bool listenToStorageEvents = false}):
+    super(dom.window.sessionStorage, listenToStorageEvents: listenToStorageEvents);
 }
