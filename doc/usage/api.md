@@ -83,21 +83,22 @@ void main() {
 ```
 
 ## void **destroy**()
-When a service is instantiated, it automatically listens for
-the [storage events](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event).
-When you have done using the service instance, it's preferable to call the `destroy()` method to cancel the subscription to these events.
+When a service is instantiated, it can listen to the global [storage events](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event).
+When you have done using the service instance, you should call the `destroy()` method to cancel the subscription to these events.
 
 ```dart
 import 'package:webstorage/webstorage.dart';
 
 void main() {
   // Work with the service...
-  final storage = LocalStorage();
+  final storage = LocalStorage(listenToStorageEvents: true);
 
   // Later, cancel the subscription to the storage events.
   storage.destroy();
 }
 ```
+
+See the [events](events.md) section for more information.
 
 ## String **get**(String key, [String defaultValue])
 Returns the value associated to the specified key:
