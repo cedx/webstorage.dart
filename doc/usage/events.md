@@ -1,5 +1,7 @@
-path: blob/master
+---
+path: src/branch/master
 source: lib/src/simple_change.dart
+---
 
 # Events
 Every time one or several values are changed (added, removed or updated) through the `LocalStorage` or `SessionStorage` class, a `changes` event is triggered.
