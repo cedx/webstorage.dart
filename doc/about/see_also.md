@@ -7,6 +7,3 @@
 
 ## Testing
 - [Continuous integration](https://github.com/cedx/webstorage.dart/actions)
-
-## Other implementations
-- JavaScript: [Web Storage for JS](https://docs.belin.io/webstorage.js)
