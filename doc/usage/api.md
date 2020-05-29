@@ -1,6 +1,6 @@
 ---
 path: src/branch/master
-source: lib/src/storage.dart
+source: lib/src/web_storage.dart
 ---
 
 # Programming interface
@@ -10,30 +10,30 @@ This package provides two services dedicated to the Web Storage: the `LocalStora
 import "package:webstorage/webstorage.dart";
 
 void main() {
-	final storage = LocalStorage();
+	final service = LocalStorage();
 
-	storage["foo"] = "bar";
-	print(storage["foo"]); // "bar"
+	service["foo"] = "bar";
+	print(service["foo"]); // "bar"
 
-	storage.setObject("foo", <String, String>{"baz": "qux"});
-	print(storage.getObject("foo")); // {"baz": "qux"}
+	service.setObject("foo", {"baz": "qux"});
+	print(service.getObject("foo")); // {"baz": "qux"}
 }
 ```
 
 Each class extends from the `WebStorage` abstract class that implements the [`Map`](https://api.dart.dev/stable/dart-core/Map-class.html) interface and has the following API:
 
 ## Iterable&lt;String&gt; get **keys**
-Returns the keys of the the associated storage:
+Returns the keys of the associated storage:
 
 ``` dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
-	final storage = LocalStorage();
-	print(storage.keys); // []
-		
-	storage["foo"] = "bar";
-	print(storage.keys); // ["foo"]
+	final service = LocalStorage();
+	print(service.keys); // []
+
+	service["foo"] = "bar";
+	print(service.keys); // ["foo"]
 }
 ```
 
@@ -44,11 +44,11 @@ Returns the number of entries in the associated storage:
 import "package:webstorage/webstorage.dart";
 
 void main() {
-	final storage = LocalStorage();
-	print(storage.length); // 0
-		
-	storage["foo"] = "bar";
-	print(storage.length); // 1
+	final service = LocalStorage();
+	print(service.length); // 0
+
+	service["foo"] = "bar";
+	print(service.length); // 1
 }
 ```
 
@@ -59,13 +59,13 @@ Removes all entries from the associated storage:
 import "package:webstorage/webstorage.dart";
 
 void main() {
-	final storage = LocalStorage();
+	final service = LocalStorage();
 
-	storage["foo"] = "bar";
-	print(storage.length); // 1
-		
-	storage.clear();
-	print(storage.length); // 0
+	service["foo"] = "bar";
+	print(service.length); // 1
+
+	service.clear();
+	print(service.length); // 0
 }
 ```
 
@@ -76,11 +76,11 @@ Returns a boolean value indicating whether the associated storage contains the s
 import "package:webstorage/webstorage.dart";
 
 void main() {
-	final storage = LocalStorage();
-	print(storage.containsKey("foo")); // false
-		
-	storage["foo"] = "bar";
-	print(storage.containsKey("foo")); // true
+	final service = LocalStorage();
+	print(service.containsKey("foo")); // false
+
+	service["foo"] = "bar";
+	print(service.containsKey("foo")); // true
 }
 ```
 
@@ -93,10 +93,10 @@ import "package:webstorage/webstorage.dart";
 
 void main() {
 	// Work with the service...
-	final storage = LocalStorage(listenToGlobalEvents: true);
+	final service = LocalStorage(listenToGlobalEvents: true);
 
 	// Later, cancel the subscription to the storage events.
-	storage.destroy();
+	service.destroy();
 }
 ```
 
@@ -109,12 +109,12 @@ Returns the value associated to the specified key:
 import "package:webstorage/webstorage.dart";
 
 void main() {
-	final storage = LocalStorage();
-	print(storage.get("foo")); // null
-	print(storage.get("foo", "qux")); // "qux"
+	final service = LocalStorage();
+	print(service.get("foo")); // null
+	print(service.get("foo", "qux")); // "qux"
 
-	storage["foo"] = "bar";
-	print(storage.get("foo")); // "bar"
+	service["foo"] = "bar";
+	print(service.get("foo")); // "bar"
 }
 ```
 
@@ -127,43 +127,45 @@ Deserializes and returns the value associated to the specified key:
 import "package:webstorage/webstorage.dart";
 
 void main() {
-	final storage = LocalStorage();
-	print(storage.getObject("foo")); // null
-	print(storage.getObject("foo", "qux")); // "qux"
-	
-	storage.setObject("foo", <String, String>{"bar": "baz"});
-	print(storage.getObject("foo")); // {"bar": "baz"}
+	final service = LocalStorage();
+	print(service.getObject("foo")); // null
+	print(service.getObject("foo", "qux")); // "qux"
+
+	service.setObject("foo", {"bar": "baz"});
+	print(service.getObject("foo")); // {"bar": "baz"}
 }
 ```
 
 !!! info
 	The value is deserialized using the [`jsonDecode`](https://api.dart.dev/stable/dart-convert/jsonDecode.html) function.
 
-Returns a `null` reference or the given default value if the key is not found.
+Returns `null` or the given default value if the key is not found.
 
 ## dynamic **putObjectIfAbsent**(String key, dynamic Function() ifAbsent)
 Looks up the value of the specified key, or add a new value if it isn't there.
 
-Returns the deserialized value associated to the key, if there is one. Otherwise calls `ifAbsent` to get a new value, serializes and associates the key to that value, and then returns the new value:
+Returns the deserialized value associated to the key, if there is one.
+Otherwise calls `ifAbsent` to get a new value, serializes it and associates the key to that value, and then returns the new value:
 
 ``` dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
-	final storage = LocalStorage();
-	print(storage.containsKey("foo")); // false
+	final service = LocalStorage();
+	print(service.containsKey("foo")); // false
 
-	var value = storage.putObjectIfAbsent("foo", () => 123);
-	print(storage.containsKey("foo")); // true
+	var value = service.putObjectIfAbsent("foo", () => 123);
+	print(service.containsKey("foo")); // true
 	print(value); // 123
 
-	value = storage.putObjectIfAbsent("foo", () => 456);
+	value = service.putObjectIfAbsent("foo", () => 456);
 	print(value); // 123
 }
 ```
 
 !!! info
-	The value is serialized using the [`jsonEncode`](https://api.dart.dev/stable/dart-convert/jsonEncode.html) function, and deserialized using the [`jsonDecode`](https://api.dart.dev/stable/dart-convert/jsonDecode.html) function.
+	The value is serialized using the [`jsonEncode`](https://api.dart.dev/stable/dart-convert/jsonEncode.html) function,
+	and deserialized using the [`jsonDecode`](https://api.dart.dev/stable/dart-convert/jsonDecode.html) function.
 
 ## String **remove**(String key)
 Removes the value associated to the specified key:
@@ -172,13 +174,13 @@ Removes the value associated to the specified key:
 import "package:webstorage/webstorage.dart";
 
 void main() {
-	final storage = LocalStorage();
+	final service = LocalStorage();
 
-	storage["foo"] = "bar";
-	print(storage.containsKey("foo")); // true
-		
-	print(storage.remove("foo")); // "bar"
-	print(storage.containsKey("foo")); // false
+	service["foo"] = "bar";
+	print(service.containsKey("foo")); // true
+
+	print(service.remove("foo")); // "bar"
+	print(service.containsKey("foo")); // false
 }
 ```
 
@@ -191,11 +193,11 @@ Associates a given value to the specified key:
 import "package:webstorage/webstorage.dart";
 
 void main() {
-	final storage = LocalStorage();
-	print(storage.get("foo")); // null
-		
-	storage.set("foo", "bar");
-	print(storage.get("foo")); // "bar"
+	final service = LocalStorage();
+	print(service.get("foo")); // null
+
+	service.set("foo", "bar");
+	print(service.get("foo")); // "bar"
 }
 ```
 
@@ -206,11 +208,11 @@ Serializes and associates a given value to the specified key:
 import "package:webstorage/webstorage.dart";
 
 void main() {
-	final storage = LocalStorage();
-	print(storage.getObject("foo")); // null
-		
-	storage.setObject("foo", <String, String>{"bar": "baz"});
-	print(storage.getObject("foo")); // {"bar": "baz"}
+	final service = LocalStorage();
+	print(service.getObject("foo")); // null
+
+	service.setObject("foo", {"bar": "baz"});
+	print(service.getObject("foo")); // {"bar": "baz"}
 }
 ```
 
