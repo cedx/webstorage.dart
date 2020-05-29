@@ -6,7 +6,7 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   /// Creates a new storage service.
   WebStorage(this._backend, {bool listenToGlobalEvents = false}) {
     if (listenToGlobalEvents) _subscription = window.onStorage.listen((event) {
-      if (event.storageArea == _backend) _emit(event.key, event.oldValue, event.newValue, event.url);
+      if (event.storageArea == _backend) _emit(event.key, oldValue: event.oldValue, newValue: event.newValue, url: event.url);
     });
   }
 
