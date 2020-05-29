@@ -4,9 +4,8 @@ library webstorage;
 import "dart:async";
 import "dart:collection";
 import "dart:convert";
-import "dart:html" as dom;
-import "package:json_annotation/json_annotation.dart";
+import "dart:html";
 
-part "webstorage.g.dart";
-part "src/simple_change.dart";
-part "src/storage.dart";
+part "src/local_storage.dart";
+part "src/session_storage.dart";
+part "src/web_storage.dart";
