@@ -1,7 +1,10 @@
 # Changelog
 
 ## Version [2.0.0](https://git.belin.io/cedx/webstorage.dart/compare/v1.4.0...v2.0.0)
-- Breaking change: removed the `SimpleChange.fromJson()` factory.
+- Breaking change: renamed the `listenToStorageEvents` named parameter to `listenToGlobalEvents`.
+- Breaking change: renamed the `onChanges` event stream to `onChange`.
+- Breaking change: replaced the map of `SimpleChange` instances by the native `StorageEvent` instance.
+- Raised the [Dart SDK](https://dart.dev/tools/sdk) constraint.
 
 ## Version [1.4.0](https://git.belin.io/cedx/webstorage.dart/compare/v1.3.0...v1.4.0)
 - Updated the documentation.

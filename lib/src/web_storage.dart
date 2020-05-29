@@ -50,7 +50,7 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   @override
   void clear() {
     _backend.clear();
-    _emit(null, null, null);
+    _emit(null);
   }
 
   /// Gets a value indicating whether this storage contains the given [key].
@@ -95,7 +95,7 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   @override
   String remove(Object key) {
     final oldValue = _backend.remove(key);
-    _emit(key, oldValue, null);
+    _emit(key, oldValue: oldValue);
     return oldValue;
   }
 
@@ -103,14 +103,14 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   void set(String key, String value) {
     final oldValue = get(key);
     _backend[key] = value;
-    _emit(key, oldValue, value);
+    _emit(key, oldValue: oldValue, newValue: value);
   }
 
   /// Serializes and associates a given [value] to the specified [key].
   void setObject(String key, value) => set(key, jsonEncode(value));
 
   /// Emits a new storage event.
-  void _emit(String key, String oldValue, String newValue, [String url]) => _onChange.add(StorageEvent(
+  void _emit(String key, {String oldValue, String newValue, String url}) => _onChange.add(StorageEvent(
     "change",
     key: key,
     oldValue: oldValue,
