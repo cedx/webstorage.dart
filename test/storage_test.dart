@@ -1,10 +1,11 @@
-import "dart:html" as dom;
+import "dart:convert";
+import "dart:html";
 import "package:test/test.dart";
 import "package:webstorage/webstorage.dart";
 
 /// Tests the features of the [WebStorage] class.
 void main() => group("WebStorage", () {
-	setUp(dom.window.sessionStorage.clear);
+	setUp(window.sessionStorage.clear);
 
 	group(".keys", () {
 		test("should return an empty list for an empty storage", () {
@@ -12,8 +13,8 @@ void main() => group("WebStorage", () {
 		});
 
 		test("should return the list of keys for a non-empty storage", () {
-			dom.window.sessionStorage["foo"] = "bar";
-			dom.window.sessionStorage["bar"] = "baz";
+			window.sessionStorage["foo"] = "bar";
+			window.sessionStorage["bar"] = "baz";
 			expect(SessionStorage().keys, orderedEquals(["foo", "bar"]));
 		});
 	});
@@ -24,92 +25,69 @@ void main() => group("WebStorage", () {
 		});
 
 		test("should return the number of entries for a non-empty storage", () {
-			dom.window.sessionStorage["foo"] = "bar";
-			dom.window.sessionStorage["bar"] = "baz";
+			window.sessionStorage["foo"] = "bar";
+			window.sessionStorage["bar"] = "baz";
 			expect(SessionStorage(), hasLength(2));
 		});
 	});
 
 	group(".onChanges", () {
 		test("should trigger an event when a value is added", () {
-			final storage = SessionStorage();
-			storage.onChanges.listen(expectAsync1((changes) {
-				expect(changes, hasLength(1));
-
-				final record = changes.values.first;
-				expect(changes.keys.first, "foo");
-				expect(record.currentValue, "bar");
-				expect(record.previousValue, isNull);
-			}));
-
-			storage["foo"] = "bar";
+			SessionStorage()
+				..onChanges.listen(expectAsync1((event) {
+					expect(event.key, "foo");
+					expect(event.oldValue, isNull);
+					expect(event.newValue, "bar");
+				}))
+				..set("foo", "bar");
 		});
 
 		test("should trigger an event when a value is updated", () {
-			dom.window.sessionStorage["foo"] = "bar";
-
-			final storage = SessionStorage();
-			storage.onChanges.listen(expectAsync1((changes) {
-				expect(changes, hasLength(1));
-
-				final record = changes.values.first;
-				expect(changes.keys.first, "foo");
-				expect(record.currentValue, "baz");
-				expect(record.previousValue, "bar");
-			}));
-
-			storage["foo"] = "baz";
+			window.sessionStorage["foo"] = "bar";
+			SessionStorage()
+				..onChanges.listen(expectAsync1((event) {
+					expect(event.key, "foo");
+					expect(event.oldValue, "bar");
+					expect(event.newValue, "baz");
+				}))
+				..set("foo", "baz");
 		});
 
 		test("should trigger an event when a value is removed", () {
-			dom.window.sessionStorage["foo"] = "bar";
-
-			final storage = SessionStorage();
-			storage.onChanges.listen(expectAsync1((changes) {
-				expect(changes, hasLength(1));
-
-				final record = changes.values.first;
-				expect(changes.keys.first, "foo");
-				expect(record.currentValue, isNull);
-				expect(record.previousValue, "bar");
-			}));
-
-			storage.remove("foo");
+			window.sessionStorage["foo"] = "bar";
+			SessionStorage()
+				..onChanges.listen(expectAsync1((event) {
+					expect(event.key, "foo");
+					expect(event.oldValue, "bar");
+					expect(event.newValue, isNull);
+				}))
+				..remove("foo");
 		});
 
 		test("should trigger an event when the storage is cleared", () {
-			dom.window.sessionStorage["foo"] = "bar";
-			dom.window.sessionStorage["bar"] = "baz";
+			window.sessionStorage["foo"] = "bar";
+			window.sessionStorage["bar"] = "baz";
 
-			final storage = SessionStorage();
-			storage.onChanges.listen(expectAsync1((changes) {
-				expect(changes, hasLength(2));
-
-				var record = changes.values.first;
-				expect(changes.keys.first, "foo");
-				expect(record.currentValue, isNull);
-				expect(record.previousValue, "bar");
-
-				record = changes.values.last;
-				expect(changes.keys.last, "bar");
-				expect(record.currentValue, isNull);
-				expect(record.previousValue, "baz");
-			}));
-
-			storage.clear();
+			SessionStorage()
+				..onChanges.listen(expectAsync1((event) {
+					expect(event.key, isNull);
+					expect(event.oldValue, isNull);
+					expect(event.newValue, isNull);
+				}))
+				..clear();
 		});
 	});
 
 	group(".clear()", () {
 		test("should remove all storage entries", () {
-			dom.window.sessionStorage["foo"] = "bar";
-			dom.window.sessionStorage["bar"] = "baz";
+			window.sessionStorage["foo"] = "bar";
+			window.sessionStorage["bar"] = "baz";
 
-			final storage = SessionStorage();
-			expect(storage, hasLength(2));
+			final service = SessionStorage();
+			expect(service, hasLength(2));
 
-			storage.clear();
-			expect(storage, isEmpty);
+			service.clear();
+			expect(service, isEmpty);
 		});
 	});
 
@@ -119,23 +97,23 @@ void main() => group("WebStorage", () {
 		});
 
 		test("should return `true` if the specified key is contained", () {
-			final storage = SessionStorage();
-			dom.window.sessionStorage["foo"] = "bar";
-			expect(storage.containsKey("foo"), isTrue);
-			expect(storage.containsKey("bar"), isFalse);
+			final service = SessionStorage();
+			window.sessionStorage["foo"] = "bar";
+			expect(service.containsKey("foo"), isTrue);
+			expect(service.containsKey("bar"), isFalse);
 		});
 	});
 
 	group(".get()", () {
 		test("should properly get the storage entries", () {
-			final storage = SessionStorage();
-			expect(storage["foo"], isNull);
+			final service = SessionStorage();
+			expect(service["foo"], isNull);
 
-			dom.window.sessionStorage["foo"] = "bar";
-			expect(storage["foo"], "bar");
+			window.sessionStorage["foo"] = "bar";
+			expect(service["foo"], "bar");
 
-			dom.window.sessionStorage["foo"] = "123";
-			expect(storage["foo"], "123");
+			window.sessionStorage["foo"] = "123";
+			expect(service["foo"], "123");
 		});
 
 		test("should return the given default value if the key is not found", () {
@@ -145,83 +123,94 @@ void main() => group("WebStorage", () {
 
 	group(".getObject()", () {
 		test("should properly get the deserialized storage entries", () {
-			final storage = SessionStorage();
-			expect(storage.getObject("foo"), isNull);
-			expect(storage.getObject("foo", {"key": "value"}), isA<Map>()
+			final service = SessionStorage();
+			expect(service.getObject("foo"), isNull);
+
+			window.sessionStorage["foo"] = "123";
+			expect(service.getObject("foo"), 123);
+
+			window.sessionStorage["foo"] = '"bar"';
+			expect(service.getObject("foo"), "bar");
+
+			window.sessionStorage["foo"] = '{"baz": "qux"}';
+			expect(service.getObject("foo"), isA<Map>()
 				.having((map) => map, "length", hasLength(1))
-				.having((map) => map["key"], "entry", "value"));
-
-			dom.window.sessionStorage["foo"] = "123";
-			expect(storage.getObject("foo"), 123);
-
-			dom.window.sessionStorage["foo"] = '"bar"';
-			expect(storage.getObject("foo"), "bar");
-
-			dom.window.sessionStorage["foo"] = '{"key": "value"}';
-			expect(storage.getObject("foo"), isA<Map>()
-				.having((map) => map, "length", hasLength(1))
-				.having((map) => map["key"], "entry", "value"));
+				.having((map) => map["baz"], "entry", "qux"));
 		});
 
-		test("should return the default value if the value can\"t be deserialized", () {
-			dom.window.sessionStorage["foo"] = "bar";
+		test("should return the default value if the value can't be deserialized", () {
+			window.sessionStorage["foo"] = "bar";
 			expect(SessionStorage().getObject("foo", "defaultValue"), "defaultValue");
 		});
 	});
 
 	group(".putObjectIfAbsent()", () {
 		test("should add a new entry if it does not exist", () {
-			final storage = SessionStorage();
-			expect(dom.window.sessionStorage["foo"], isNull);
-			expect(storage.putObjectIfAbsent("foo", () => 123), 123);
-			expect(dom.window.sessionStorage["foo"], "123");
+			final service = SessionStorage();
+			expect(window.sessionStorage["foo"], isNull);
+			expect(service.putObjectIfAbsent("foo", () => 123), 123);
+			expect(window.sessionStorage["foo"], "123");
 		});
 
 		test("should not add a new entry if it already exists", () {
-			final storage = SessionStorage();
-			dom.window.sessionStorage["bar"] = "123";
-			expect(storage.putObjectIfAbsent("bar", () => 456), 123);
-			expect(dom.window.sessionStorage["bar"], "123");
+			final service = SessionStorage();
+			window.sessionStorage["bar"] = "123";
+			expect(service.putObjectIfAbsent("bar", () => 456), 123);
+			expect(window.sessionStorage["bar"], "123");
 		});
 	});
 
 	group(".remove()", () {
 		test("should properly remove the storage entries", () {
-			final storage = SessionStorage();
-			dom.window.sessionStorage["foo"] = "bar";
-			dom.window.sessionStorage["bar"] = "baz";
-			expect(dom.window.sessionStorage["foo"], "bar");
+			final service = SessionStorage();
+			window.sessionStorage["foo"] = "bar";
+			window.sessionStorage["bar"] = "baz";
+			expect(window.sessionStorage["foo"], "bar");
 
-			storage.remove("foo");
-			expect(dom.window.sessionStorage["foo"], isNull);
-			expect(dom.window.sessionStorage["bar"], "baz");
+			service.remove("foo");
+			expect(window.sessionStorage["foo"], isNull);
+			expect(window.sessionStorage["bar"], "baz");
 
-			storage.remove("bar");
-			expect(dom.window.sessionStorage["bar"], isNull);
+			service.remove("bar");
+			expect(window.sessionStorage["bar"], isNull);
 		});
 	});
 
 	group(".set()", () {
 		test("should properly set the storage entries", () {
-			final storage = SessionStorage();
-			expect(dom.window.sessionStorage["foo"], isNull);
-			storage["foo"] = "bar";
-			expect(dom.window.sessionStorage["foo"], "bar");
-			storage["foo"] = "123";
-			expect(dom.window.sessionStorage["foo"], "123");
+			final service = SessionStorage();
+			expect(window.sessionStorage["foo"], isNull);
+			service["foo"] = "bar";
+			expect(window.sessionStorage["foo"], "bar");
+			service["foo"] = "123";
+			expect(window.sessionStorage["foo"], "123");
 		});
 	});
 
 	group(".setObject()", () {
 		test("should properly serialize and set the storage entries", () {
-			final storage = SessionStorage();
-			expect(dom.window.sessionStorage["foo"], isNull);
-			storage.setObject("foo", 123);
-			expect(dom.window.sessionStorage["foo"], "123");
-			storage.setObject("foo", "bar");
-			expect(dom.window.sessionStorage["foo"], '"bar"');
-			storage.setObject("foo", {"key": "value"});
-			expect(dom.window.sessionStorage["foo"], '{"key":"value"}');
+			final service = SessionStorage();
+			expect(window.sessionStorage["foo"], isNull);
+			service.setObject("foo", 123);
+			expect(window.sessionStorage["foo"], "123");
+			service.setObject("foo", "bar");
+			expect(window.sessionStorage["foo"], '"bar"');
+			service.setObject("foo", {"key": "value"});
+			expect(window.sessionStorage["foo"], '{"key":"value"}');
+		});
+	});
+
+	group("to JSON", () {
+		test("should return an empty map for an empty storage", () {
+			expect(jsonEncode(SessionStorage()), "{}");
+		});
+
+		test("should return a non-empty map for a non-empty storage", () {
+			final json = jsonEncode(SessionStorage()
+				..set("foo", "bar")
+				..set("baz", "qux"));
+
+			expect(json, allOf(contains('"foo":"bar"'), contains('"baz":"qux"')));
 		});
 	});
 });
