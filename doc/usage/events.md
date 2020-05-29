@@ -56,14 +56,14 @@ The `WebStorage` parent class supports the global [storage events](https://devel
 
 When a change is made to the storage area within the context of another document (i.e. in another tab or `<iframe>`), a `changes` event can be triggered to notify the modification.
 
-The class constructors have a `listenToStorageEvents` parameter that allows to enable the subscription to the global storage events:
+The class constructors have a `listenToGlobalEvents` parameter that allows to enable the subscription to the global storage events:
 
 ``` dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
 	// Enable the subscription to the global events of the local storage.
-	final storage = LocalStorage(listenToStorageEvents: true);
+	final storage = LocalStorage(listenToGlobalEvents: true);
 
 	storage.onChanges.listen((changes) {
 		// Also occurs when the local storage is changed in another document.

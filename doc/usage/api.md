@@ -93,7 +93,7 @@ import "package:webstorage/webstorage.dart";
 
 void main() {
 	// Work with the service...
-	final storage = LocalStorage(listenToStorageEvents: true);
+	final storage = LocalStorage(listenToGlobalEvents: true);
 
 	// Later, cancel the subscription to the storage events.
 	storage.destroy();
