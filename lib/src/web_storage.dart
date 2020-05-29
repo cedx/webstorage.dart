@@ -113,8 +113,8 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   void _emit(String key, {String oldValue, String newValue, String url}) => _onChange.add(StorageEvent(
     "change",
     key: key,
-    oldValue: oldValue,
     newValue: newValue,
+    oldValue: oldValue,
     storageArea: _backend,
     url: url ?? window.location.href
   ));
