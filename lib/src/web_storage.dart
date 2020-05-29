@@ -14,7 +14,7 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   final Storage _backend;
 
   /// The handler of "changes" events.
-  final _onChanges = StreamController<StorageEvent>.broadcast();
+  final _onChange = StreamController<StorageEvent>.broadcast();
 
   /// The subscription to the storage events.
   StreamSubscription<StorageEvent> _subscription;
@@ -36,7 +36,7 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   int get length => _backend.length;
 
   /// The stream of "changes" events.
-  Stream<StorageEvent> get onChanges => _onChanges.stream;
+  Stream<StorageEvent> get onChange => _onChange.stream;
 
   /// Gets the value associated to the specified [key].
   @override
@@ -110,7 +110,7 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
   void setObject(String key, value) => set(key, jsonEncode(value));
 
   /// Emits a new storage event.
-  void _emit(String key, String oldValue, String newValue, [String url]) => _onChanges.add(StorageEvent(
+  void _emit(String key, String oldValue, String newValue, [String url]) => _onChange.add(StorageEvent(
     "change",
     key: key,
     oldValue: oldValue,

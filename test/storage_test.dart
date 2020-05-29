@@ -31,10 +31,10 @@ void main() => group("WebStorage", () {
 		});
 	});
 
-	group(".onChanges", () {
+	group(".onChange", () {
 		test("should trigger an event when a value is added", () {
 			SessionStorage()
-				..onChanges.listen(expectAsync1((event) {
+				..onChange.listen(expectAsync1((event) {
 					expect(event.key, "foo");
 					expect(event.oldValue, isNull);
 					expect(event.newValue, "bar");
@@ -45,7 +45,7 @@ void main() => group("WebStorage", () {
 		test("should trigger an event when a value is updated", () {
 			window.sessionStorage["foo"] = "bar";
 			SessionStorage()
-				..onChanges.listen(expectAsync1((event) {
+				..onChange.listen(expectAsync1((event) {
 					expect(event.key, "foo");
 					expect(event.oldValue, "bar");
 					expect(event.newValue, "baz");
@@ -56,7 +56,7 @@ void main() => group("WebStorage", () {
 		test("should trigger an event when a value is removed", () {
 			window.sessionStorage["foo"] = "bar";
 			SessionStorage()
-				..onChanges.listen(expectAsync1((event) {
+				..onChange.listen(expectAsync1((event) {
 					expect(event.key, "foo");
 					expect(event.oldValue, "bar");
 					expect(event.newValue, isNull);
@@ -69,7 +69,7 @@ void main() => group("WebStorage", () {
 			window.sessionStorage["bar"] = "baz";
 
 			SessionStorage()
-				..onChanges.listen(expectAsync1((event) {
+				..onChange.listen(expectAsync1((event) {
 					expect(event.key, isNull);
 					expect(event.oldValue, isNull);
 					expect(event.newValue, isNull);
