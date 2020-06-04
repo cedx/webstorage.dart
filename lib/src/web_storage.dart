@@ -66,7 +66,7 @@ abstract class WebStorage extends Object with MapMixin<String, String> { // igno
 
   /// Gets the value associated to the specified [key].
   /// Returns the given [defaultValue] if the storage item does not exist.
-  String get(String key, [String defaultValue]) => containsKey(key) ? _backend[key] : defaultValue;
+  String get(String key, [String defaultValue]) => _backend[key] ?? defaultValue;
 
   /// Gets the deserialized value associated to the specified [key].
   /// Returns the given [defaultValue] if the storage item does not exist.
