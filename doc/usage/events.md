@@ -1,6 +1,6 @@
 # Events
 Every time one or several values are changed (added, removed or updated) through the `LocalStorage` or `SessionStorage` class,
-a [`StorageEvent`](https://api.dart.dev/stable/dart-html/StorageEvent-class.html) of type `change` is emitted
+a [`StorageEvent`](https://api.dart.dev/stable/dart-html/StorageEvent-class.html) of type `change` is emitted.
 
 These events are exposed as [`Stream`](https://api.dart.dev/stable/dart-async/Stream-class.html), you can listen to them using the `onChange` property:
 
