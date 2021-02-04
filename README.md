@@ -4,13 +4,13 @@
 Services for interacting with the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage), in [Dart](https://dart.dev).
 
 ## Documentation
-- [User guide](https://docs.belin.io/webstorage.dart)
-- [API reference](https://api.belin.io/webstorage.dart)
+- [User guide](https://cedx.github.io/webstorage.dart)
+- [API reference](https://pub.dev/documentation/webstorage)
 
 ## Development
-- [Git repository](https://git.belin.io/cedx/webstorage.dart)
+- [Git repository](https://github.com/cedx/webstorage.dart)
 - [Pub package](https://pub.dev/packages/webstorage)
-- [Submit an issue](https://git.belin.io/cedx/webstorage.dart/issues)
+- [Submit an issue](https://github.com/cedx/webstorage.dart/issues)
 
 ## License
-[Web Storage for Dart](https://docs.belin.io/webstorage.dart) is distributed under the MIT License.
+[Web Storage for Dart](https://cedx.github.io/webstorage.dart) is distributed under the MIT License.

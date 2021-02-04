@@ -2,9 +2,9 @@ name: webstorage
 version: 2.0.0
 
 description: Services for interacting with the Web Storage. An event-based API to manage storage changes.
-homepage: https://docs.belin.io/webstorage.dart
-issue_tracker: https://git.belin.io/cedx/webstorage.dart/issues
-repository: https://git.belin.io/cedx/webstorage.dart
+homepage: https://cedx.github.io/webstorage.dart
+issue_tracker: https://github.com/cedx/webstorage.dart/issues
+repository: https://github.com/cedx/webstorage.dart
 
 environment:
   sdk: ">=2.10.0 <3.0.0"

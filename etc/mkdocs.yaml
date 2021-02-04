@@ -1,13 +1,13 @@
 site_name: Web Storage for Dart
 site_description: Services for interacting with the Web Storage, in Dart. An event-based API to manage storage changes.
 site_author: Cédric Belin - cedric@belin.io
-site_url: https://docs.belin.io/webstorage.dart
+site_url: https://cedx.github.io/webstorage.dart
 
 docs_dir: ../doc
 site_dir: ../www
 
-repo_name: git.belin.io
-repo_url: https://git.belin.io/cedx/webstorage.dart
+repo_name: github.com
+repo_url: https://github.com/cedx/webstorage.dart
 edit_uri: ""
 
 copyright: Copyright &copy; 2019 - 2020 Cédric Belin
