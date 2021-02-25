@@ -3,6 +3,8 @@
 
 Services for interacting with the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage), in [Dart](https://dart.dev).
 
+> WARNING: this package is **abandoned** and no longer maintained.
+
 ## Documentation
 - [User guide](https://cedx.github.io/webstorage.dart)
 - [API reference](https://pub.dev/documentation/webstorage)

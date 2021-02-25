@@ -3,18 +3,20 @@
 
 Services for interacting with the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage), in [Dart](https://dart.dev).
 
+!> WARNING: this package is **abandoned** and no longer maintained.
+
 ## Quick start
 Append the following line to your project's `pubspec.yaml` file:
 
-``` yaml
+```yaml
 dependencies:
 	webstorage: *
 ```
 
-Install the latest version of **Web Storage for Dart** with [Pub](https://dart.dev/tools/pub):
+Install the latest version of **Web Storage for Dart** with [Pub](https://dart.dev/tools/pub/cmd):
 
-``` shell
-pub get
+```shell
+dart pub get
 ```
 
 For detailed instructions, see the [installation guide](installation.md).

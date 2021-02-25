@@ -1,12 +1,7 @@
----
-path: blob/main
-source: lib/src/web_storage.dart
----
-
 # Programming interface
 This package provides two services dedicated to the Web Storage: the `LocalStorage` and `SessionStorage` classes.
 
-``` dart
+```dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
@@ -20,12 +15,12 @@ void main() {
 }
 ```
 
-Each class extends from the `WebStorage` abstract class that implements the [`Map`](https://api.dart.dev/stable/dart-core/Map-class.html) interface and has the following API:
+Each class extends from the `WebStorage` abstract class that implements the [Map](https://api.dart.dev/stable/dart-core/Map-class.html) interface and has the following API:
 
 ## Iterable&lt;String&gt; get **keys**
 Returns the keys of the associated storage:
 
-``` dart
+```dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
@@ -40,7 +35,7 @@ void main() {
 ## int get **length**
 Returns the number of entries in the associated storage:
 
-``` dart
+```dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
@@ -55,7 +50,7 @@ void main() {
 ## void **clear**()
 Removes all entries from the associated storage:
 
-``` dart
+```dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
@@ -72,7 +67,7 @@ void main() {
 ## bool **containsKey**(String key)
 Returns a boolean value indicating whether the associated storage contains the specified key:
 
-``` dart
+```dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
@@ -88,7 +83,7 @@ void main() {
 When a service is instantiated, it can listen to the global [storage events](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event).
 When you have done using the service instance, you should call the `destroy()` method to cancel the subscription to these events.
 
-``` dart
+```dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
@@ -100,12 +95,12 @@ void main() {
 }
 ```
 
-See the [events](events.md) section for more information.
+See the [events](usage/events.md) section for more information.
 
 ## String **get**(String key, [String defaultValue])
 Returns the value associated to the specified key:
 
-``` dart
+```dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
@@ -123,7 +118,7 @@ Returns `null` or the given default value if the key is not found.
 ## dynamic **getObject**(String key, [dynamic defaultValue])
 Deserializes and returns the value associated to the specified key:
 
-``` dart
+```dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
@@ -136,8 +131,7 @@ void main() {
 }
 ```
 
-!!! info
-	The value is deserialized using the [`jsonDecode`](https://api.dart.dev/stable/dart-convert/jsonDecode.html) function.
+?> The value is deserialized using the [jsonDecode](https://api.dart.dev/stable/dart-convert/jsonDecode.html) function.
 
 Returns `null` or the given default value if the key is not found.
 
@@ -147,7 +141,7 @@ Looks up the value of the specified key, or add a new value if it isn't there.
 Returns the deserialized value associated to the key, if there is one.
 Otherwise calls `ifAbsent` to get a new value, serializes it and associates the key to that value, and then returns the new value:
 
-``` dart
+```dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
@@ -163,14 +157,13 @@ void main() {
 }
 ```
 
-!!! info
-	The value is serialized using the [`jsonEncode`](https://api.dart.dev/stable/dart-convert/jsonEncode.html) function,
-	and deserialized using the [`jsonDecode`](https://api.dart.dev/stable/dart-convert/jsonDecode.html) function.
+?> The value is serialized using the [jsonEncode](https://api.dart.dev/stable/dart-convert/jsonEncode.html) function,
+and deserialized using the [jsonDecode](https://api.dart.dev/stable/dart-convert/jsonDecode.html) function.
 
 ## String **remove**(String key)
 Removes the value associated to the specified key:
 
-``` dart
+```dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
@@ -189,7 +182,7 @@ Returns the value associated with the specified key before it was removed.
 ## void **set**(String key, String value)
 Associates a given value to the specified key:
 
-``` dart
+```dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
@@ -204,7 +197,7 @@ void main() {
 ## void **setObject**(String key, dynamic value)
 Serializes and associates a given value to the specified key:
 
-``` dart
+```dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
@@ -216,5 +209,4 @@ void main() {
 }
 ```
 
-!!! info
-	The value is serialized using the [`jsonEncode`](https://api.dart.dev/stable/dart-convert/jsonEncode.html) function.
+?> The value is serialized using the [jsonEncode](https://api.dart.dev/stable/dart-convert/jsonEncode.html) function.

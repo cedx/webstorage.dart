@@ -1,10 +1,10 @@
 # Events
 Every time one or several values are changed (added, removed or updated) through the `LocalStorage` or `SessionStorage` class,
-a [`StorageEvent`](https://api.dart.dev/stable/dart-html/StorageEvent-class.html) of type `change` is emitted.
+a [StorageEvent](https://api.dart.dev/stable/dart-html/StorageEvent-class.html) of type `change` is emitted.
 
-These events are exposed as [`Stream`](https://api.dart.dev/stable/dart-async/Stream-class.html), you can listen to them using the `onChange` property:
+These events are exposed as [Stream](https://api.dart.dev/stable/dart-async/Stream-class.html), you can listen to them using the `onChange` property:
 
-``` dart
+```dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
@@ -19,10 +19,10 @@ void main() {
 }
 ```
 
-The values contained in the `newValue` and `oldValue` properties of the [`StorageEvent`](https://api.dart.dev/stable/dart-html/StorageEvent-class.html) instances are the raw storage values.
+The values contained in the `newValue` and `oldValue` properties of the [StorageEvent](https://api.dart.dev/stable/dart-html/StorageEvent-class.html) instances are the raw storage values.
 If you use the `WebStorage.setObject()` method to store a value, you will get the serialized string value, not the original value passed to the method:
 
-``` dart
+```dart
 storage.setObject("foo", {"bar": "baz"});
 // "foo: null => {\"bar\": \"baz\"}"
 ```
@@ -34,7 +34,7 @@ When a change is made to the storage area within the context of another document
 
 The class constructors have an optional `listenToGlobalEvents` parameter that allows to enable the subscription to the global storage events:
 
-``` dart
+```dart
 import "package:webstorage/webstorage.dart";
 
 void main() {
@@ -49,5 +49,5 @@ void main() {
 }
 ```
 
-!!! important
-	When you enable the subscription to the global [storage events](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event), you must take care to call the [`destroy()` method](api.md) when you have finished with the service in order to avoid a memory leak.
+!> When you enable the subscription to the global [storage events](https://developer.mozilla.org/en-US/docs/Web/API/Window/storage_event),
+you must take care to call the [destroy()](usage/api.md) method when you have finished with the service in order to avoid a memory leak.
